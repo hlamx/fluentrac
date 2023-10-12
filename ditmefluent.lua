@@ -130,7 +130,35 @@ local aa = {
         if getgenv then getgenv().Fluent = x end
         return x
     end,
+    function()
+        local c, d, e, f, g = b(2)
+        local h = { AcrylicBlur = e(d.AcrylicBlur), CreateAcrylic = e(d.CreateAcrylic), AcrylicPaint = e(d.AcrylicPaint) }
+        function h.init()
+            local i = Instance.new 'DepthOfFieldEffect'
+            i.FarIntensity = 0
+            i.InFocusRadius = 0.1
+            i.NearIntensity = 1
+            local j = {}
+            function h.Enable()
+                for k, l in pairs(j) do l.Enabled = false end
+                i.Parent = game:GetService 'Lighting'
+            end
 
+            function h.Disable()
+                for k, l in pairs(j) do l.Enabled = l.enabled end
+                i.Parent = nil
+            end
+
+            local k = function()
+                local k = function(k) if k:IsA 'DepthOfFieldEffect' then j[k] = { enabled = k.Enabled } end end
+                for l, m in pairs(game:GetService 'Lighting':GetChildren()) do k(m) end
+                if game:GetService 'Workspace'.CurrentCamera then for n, o in pairs(game:GetService 'Workspace'.CurrentCamera:GetChildren()) do
+                        k(o) end end
+            end
+        end
+
+        return h
+    end,
     function()
         local c, d, e, f, g = b(3)
         local h, i, j, k = e(d.Parent.Parent.Creator), e(d.Parent.CreateAcrylic), unpack(e(d.Parent.Utils))
